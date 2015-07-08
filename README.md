@@ -15,7 +15,7 @@ A fixture library for Elixir
 
 Add to your `mix.exs`
 
-`{:tacos, git: "git@github.com:simble-app/tacos.git", tag: "v0.0.1"}`
+`{:tacos, github: "simble-app/tacos", tag: "v0.0.1"}`
 
 ### Setup
 
