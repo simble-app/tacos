@@ -10,6 +10,11 @@ defmodule Tacos.Generators.EctoModel do
 
     data = Map.delete(model, :__struct__)
       |> Map.delete(:__meta__)
+      |> Map.delete(:_vex)
+      |> Map.delete(:id)
+      |> Map.delete(:errors)
+      |> Map.delete(:inserted_at)
+      |> Map.delete(:updated_at)
       |> Json.encode
 
     model_name = String.split("#{module_name}", ".") |> List.last

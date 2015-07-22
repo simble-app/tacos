@@ -4,7 +4,7 @@ defmodule Mix.Tasks.Tacos.Setup do
 
   @shortdoc "Setup Tacos in an existing app"
   def run(_) do
-    for path <- Tacos.default_test_paths do
+    for path <- Tacos.all_tacos_paths do
       cond do
         File.dir?(path) ->
           Mix.shell.info([:green, "* skipping ", :reset, "Directory exists #{path}"])

@@ -8,6 +8,9 @@ use Mix.Config
 # if you want to provide default values for your application for third-
 # party users, it should be done in your mix.exs file.
 
+config :tacos, :tacos,
+  tacos_path: "tacos/data"
+
 # Sample configuration:
 #
 #     config :logger, :console,
@@ -21,4 +24,5 @@ use Mix.Config
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env}.exs"
+
+import_config "#{Mix.env}.exs"

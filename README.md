@@ -25,55 +25,86 @@ Setup a directory for your tacos (fixtures). The default is `test/tacos`
 $ mix tacos.setup
 ```
 
+Now configure tacos in your `config/*.exs` files, configure where to find tacos.
+
+```elixir
+# Ex. Configuration for the test environment
+# config/test.exs
+
+config :tacos, :tacos,
+  tacos_path: "tacos/test",
+  format: "json"
+
+# Ex. All environments not "test"
+# config/config.exs
+config :tacos, :tacos,
+  tacos_path: "tacos/data",
+  format: "json"
+```
+
 ### Usage
 
 #### Tacos#tacos
-Fairly straightforward, examples below are from the tests.  tolerates string(s), atom(s), or keyword list with string, or atom, values.
+Fairly straightforward, examples below are from the tests. Tacos tolerates string(s), atom(s), or keyword list with string, or atom, values.
 
 ```elixir
 # Fixtures can be retrieved one at a time
 #
-# /test/tacos/spike.json
+# tacos/test/spike.json
 spike = Tacos.tacos("spike")
 
 # Fixtures can be retrieved as a list
 #
-# /test/tacos/spike.json
-# /test/tacos/faye.json
+# tacos/test/spike.json
+# tacos/test/faye.json
 [spike, faye] = Tacos.tacos([:spike, :faye])
 # Fixtures can be grouped (using directories)
 #
-# /test/tacos/users/ein.json
+# tacos/test/users/ein.json
 [ein] = Tacos.tacos(users: :ein)
 
 # Fixtures can be grouped (using directories)
 #
-# /test/tacos/users/ein.json
-# /test/tacos/users/jet.json
+# tacos/test/users/ein.json
+# tacos/test/users/jet.json
 [ein, jet] = Tacos.tacos(users: ["ein", "jet"])
 
 # Fixtures can be deeply nested
 #
-# /test/tacos/users/active/admin/ed.json
+# tacos/test/users/active/admin/ed.json
 [edward] = Tacos.tacos(users: [active: [admin: [:ed]]])
 ```
 
-### Ecto Integration
+### Mix Tasks
 
-Tacos has a mix task to generate fixtures from Ecto models <sup>[1,2]</sup>
+#### Initial Setup
 
-```elixir
-$ mix tacos.gen.model TheBebop.Crew
+Create the necessary directories for tacos (data and test)
+
+```bash
+$ mix tacos.setup
 ```
 
-<sub>*1* It actually works with _any_ struct (filters out `:__struct__`) or map.</sub><br><sub>*2* The reason it "works" with Ecto models is because it _also_ filters out `:__meta__`</sub>
+#### Ecto and/or Vex Integration
+
+Tacos has a mix task to generate fixtures from Ecto models, or structs/maps using Vex <sup>[1,2]</sup>.
+
+```bash
+#  Simple
+$ mix tacos.gen.model TheBebop.Crew
+
+# Specify the base path (relative to the application root)
+$ TACOS_PATH="delicious_tacos" mix tacos.gen.model TheBebop.Crew
+```
+
+<sub>*1* It actually works with _any_ struct (filters out `:__struct__`) or map.</sub><br><sub>*2* The reason it "works" with Ecto and/or Vex models is because it _also_ filters out: `:__meta__, :__id__, :inserted_at, :updated_at, :errors, :_vex`</sub>
 
 ## Misc
 
 ### Known Limitations Issues
 
 * No support for YAML fixture generation because I couldn't find an Elixir/Erlang libary to do (serialize) it.
-* It automatically strips `__meta__` and `__struct__` keys. If someone needs this configurable, create an issue or PR.
+* It automatically strips some keys, see Ecto/Vex Integration for specifics. If someone needs this configurable, create an issue or PR.
 
 ### Possible Features
 

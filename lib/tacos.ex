@@ -43,7 +43,7 @@ defmodule Tacos do
   end
 
   defp taco_path(taco_name) do
-    Path.join(tacos_paths, "#{taco_name}.#{taco_format}")
+    Path.join(tacos_path, "#{taco_name}.#{taco_format}")
   end
 
   defp taco_path_from_list(name) when is_atom(name) do
@@ -67,14 +67,44 @@ defmodule Tacos do
   end
 
   defp taco_format do
-    Mix.Project.config[:tacos_format] || "json"
+    Keyword.get(tacos_config || [], :format, "json")
   end
 
-  def tacos_paths do
-    Mix.Project.config[:tacos_paths] || default_test_paths
+  def tacos_path do
+    case Mix.env do
+      :test ->
+        test_tacos_path
+
+      _ ->
+        data_tacos_path
+
+    end
   end
 
-  def default_test_paths do
-    Mix.Project.config[:test_paths] || ["test/tacos"]
+  def data_tacos_path do
+    Keyword.get(tacos_config || [], :tacos_path, "tacos/data")
+  end
+
+  def test_tacos_path do
+    Keyword.get(tacos_config || [], :tacos_path, "tacos/test")
+  end
+
+  def all_tacos_paths do
+    specific = System.get_env("TACOS_PATH")
+    case specific do
+      nil -> _all_default_tacos_paths
+      _ -> [specific]
+    end
+  end
+
+  defp _all_default_tacos_paths do
+    [
+      data_tacos_path,
+      test_tacos_path
+    ]
+  end
+
+  def tacos_config do
+    Application.get_env(:tacos, :tacos)
   end
 end
