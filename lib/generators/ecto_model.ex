@@ -8,7 +8,8 @@ defmodule Tacos.Generators.EctoModel do
   defp generate_taco(module_name) do
     { model, _ } = Code.eval_string("%#{module_name}{}")
 
-    data = Map.delete(model, :__struct__)
+    data = deal_with_relationships(model, module_name)
+      |> Map.delete(:__struct__)
       |> Map.delete(:__meta__)
       |> Map.delete(:_vex)
       |> Map.delete(:id)
@@ -19,5 +20,15 @@ defmodule Tacos.Generators.EctoModel do
 
     model_name = String.split("#{module_name}", ".") |> List.last
     {model_name, data}
+  end
+
+  defp deal_with_relationships(model, module_name) do
+    { mod, _ } = Code.eval_string("#{module_name}")
+
+    relationship_stub = for {relationship, _} <- mod.changeset(model).types, into: %{} do
+      {relationship, nil}
+    end
+
+    Map.merge(model, relationship_stub)
   end
 end

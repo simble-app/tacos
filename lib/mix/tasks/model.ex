@@ -13,7 +13,6 @@ defmodule Mix.Tasks.Tacos.Gen.Model do
           File.exists?(taco_path) -> Mix.shell.info([:green, "* skipping ", :reset, "Taco exists #{taco_path}"])
           true -> create_file taco_path, taco
         end
-
     end
   end
 end

@@ -79,7 +79,7 @@ spike = Tacos.tacos("spike")
 
 #### Initial Setup
 
-Create the necessary directories for tacos (data and test)
+Create the default directories for tacos (`tacos/data` and `tacos/test`)
 
 ```bash
 $ mix tacos.setup
