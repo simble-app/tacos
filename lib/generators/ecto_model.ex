@@ -16,7 +16,7 @@ defmodule Tacos.Generators.EctoModel do
       |> Map.delete(:errors)
       |> Map.delete(:inserted_at)
       |> Map.delete(:updated_at)
-      |> Json.encode
+      |> encode
 
     model_name = String.split("#{module_name}", ".") |> List.last
     {model_name, data}
@@ -30,5 +30,22 @@ defmodule Tacos.Generators.EctoModel do
     end
 
     Map.merge(model, relationship_stub)
+  end
+
+  defp encode(model) do
+    try do
+      Json.encode(model)
+    rescue
+      e in RuntimeError ->
+        bad_key_regex = ~r/association\s:(\w+)\sfrom/ix
+
+        bad_key =
+        Regex.run(bad_key_regex, e.message)
+        |> List.last
+        |> String.to_atom
+
+        Map.delete(model, bad_key)
+        |> encode
+    end
   end
 end

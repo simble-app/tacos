@@ -29,7 +29,7 @@ defmodule Tacos.Mixfile do
   defp deps do
     [
       {:poison,                                                   "~> 1.4.0"},
-      {:yamerl, git: "git@github.com:yakaz/yamerl.git",      tag: "v0.3.2-1"}
+      {:yamerl, git: "https://github.com:/yakaz/yamerl.git", tag: "v0.3.2-1"}
     ]
   end
 end
