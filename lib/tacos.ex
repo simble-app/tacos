@@ -8,7 +8,7 @@ defmodule Tacos do
   def tacos(names) when is_list(names) do
     taco_path_from_list(names) |> List.flatten |> Enum.map(&tacos/1)
   end
-  
+
   @spec tacos(name :: String.t) :: any
   def tacos(name) do
     taco = taco_path(name)

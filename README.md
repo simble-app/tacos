@@ -6,7 +6,7 @@ A fixture library for Elixir
 ## Features
 
 * JSON fixutre support
-* YAML fixture support 
+* YAML fixture support
 * Mix task for generating (empty) fixtures from Ecto models
 
 ## Instructions
@@ -25,7 +25,7 @@ Setup a directory for your tacos (fixtures). The default is `test/tacos`
 $ mix tacos.setup
 ```
 
-Now configure tacos in your `config/*.exs` files, configure where to find tacos.
+Optionally, you can configure tacos in your `config/*.exs` files, configure where to find tacos.
 
 ```elixir
 # Ex. Configuration for the test environment
@@ -41,6 +41,8 @@ config :tacos, :tacos,
   tacos_path: "tacos/data",
   format: "json"
 ```
+
+If you do this, you'll need to generate tacos individually for each environment by setting `MIX_ENV`.
 
 ### Usage
 
