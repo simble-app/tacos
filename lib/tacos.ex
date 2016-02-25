@@ -33,7 +33,7 @@ defmodule Tacos do
       {:ok, file} ->
         file
 
-      {:error, file} ->
+      {:error, _file} ->
         raise "Taco fetch error! The taco (#{taco}) exists but cannot be read."
     end
   end
