@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Tacos.Gen.Model do
   use Mix.Task
 
   import Mix.Generator
-  import Mix.Utils, only: [camelize: 1, underscore: 1]
+  import Mix.Utils, only: [underscore: 1]
 
   @shortdoc "Generate a new taco from an ecto model"
   def run(args) do
